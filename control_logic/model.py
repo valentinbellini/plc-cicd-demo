@@ -1,7 +1,4 @@
-# control_logic/model.py
 from dataclasses import dataclass
-
-# Define "hardware"
 
 
 @dataclass
@@ -21,13 +18,9 @@ class Valve:
     pressure_required: float
     state: bool = False  # False = closed, True = open
 
-    # Method:
     def update(self, pressure: float):
-        """Simple rule: open if pressure >= pressure_required"""
-        if pressure >= self.pressure_required:
-            self.state = True
-        else:
-            self.state = False
+        """Open if pressure >= required, otherwise close."""
+        self.state = pressure >= self.pressure_required
 
 
 @dataclass
@@ -39,15 +32,16 @@ class Pump:
     state: bool = False  # False = stopped, True = running
 
     def update(self, pressure: float, valve_open: bool):
-        """Rules:
-        - Start only if valve_open and pressure >= min_pressure
-        - Stop if pressure < shutdown_pressure
+        """
+        Rules:
+        - Stop immediately if pressure < shutdown_pressure.
+        - Start only if valve is open and pressure >= min_pressure.
         """
         if pressure < self.shutdown_pressure:
             self.state = False
             return
+
         if valve_open and pressure >= self.min_pressure:
             self.state = True
         else:
-            # keep previous state or stop if conditions not met
             self.state = False
