@@ -1,6 +1,7 @@
 # Import models
 from control_logic.model import Sensor, Valve, Pump
 
+
 # Simulated PLC
 class PLCController:
     def __init__(self, config: dict):
@@ -40,8 +41,7 @@ class PLCController:
 
     # Scan cycle.
     def cycle(self):
-        """Simulate one PLC scan: read sensors -> evaluate valves -> evaluate pumps -> output state snapshot"""
-        
+
         # read pressure
         pressure = 0.0
         if "PT101" in self.sensors:
@@ -60,9 +60,11 @@ class PLCController:
             p.update(pressure, valve_open)
 
         # return snapshot
+
         snapshot = {
-            "sensors": {k: v.value for k, v in self.sensors.items()},
-            "valves": {k: v.state for k, v in self.valves.items()},
-            "pumps": {k: p.state for k, p in self.pumps.items()},
+            "sensor_pressure": pressure,
+            "valves": {"V1": self.valves["V1"].is_open},
+            "pumps": {"P1": self.pumps["P1"].running},
         }
+
         return snapshot

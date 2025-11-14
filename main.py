@@ -4,9 +4,10 @@ from control_logic.controller import PLCController
 import time
 from pathlib import Path
 
+
 def demo_sequence():
     # Load config and create PLC controller
-    cfg = load_config()               # configs/process.yaml
+    cfg = load_config()  # configs/process.yaml
     plc = PLCController(cfg)
 
     # Try to load pressures from data/inputs.json; if missing, fallback to default list
@@ -28,8 +29,14 @@ def demo_sequence():
         # Set sensor value and run one PLC scan
         plc.set_sensor("PT101", p)
         snap = plc.cycle()
-        print(f"P={p:4.2f} bar | V1={'OPEN' if snap['valves']['V1'] else 'CLOSED'} | P1={'RUN' if snap['pumps']['P1'] else 'STOP'}")
+
+        # Print
+        valve_state = "OPEN" if snap["valves"]["V1"] else "CLOSED"
+        pump_state = "RUN" if snap["pumps"]["P1"] else "STOP"
+        print(f"P={p:4.2f} bar | V1={valve_state} | P1={pump_state}")
+
         time.sleep(0.3)
+
 
 if __name__ == "__main__":
     demo_sequence()
