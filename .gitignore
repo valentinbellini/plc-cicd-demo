@@ -1,0 +1,21 @@
+# Carpetas de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.env
+env/
+venv/
+
+# Archivos temporales
+*.log
+*.tmp
+*.swp
+
+# Configuración de IDEs
+.vscode/
+.idea/
+
+# Archivos de OS
+.DS_Store
+Thumbs.db
