@@ -19,9 +19,7 @@ class PLCController:
             self.valves[name] = Valve(
                 name=name,
                 type=props.get("type", "normally_closed"),
-                pressure_required=float(
-                    props.get("pressure_required", 0.0)
-                ),
+                pressure_required=float(props.get("pressure_required", 0.0)),
             )
 
         self.pumps = {}
@@ -30,9 +28,7 @@ class PLCController:
                 name=name,
                 requires_valve_open=props.get("requires_valve_open"),
                 min_pressure=float(props.get("min_pressure", 0.0)),
-                shutdown_pressure=float(
-                    props.get("shutdown_pressure", 0.0)
-                ),
+                shutdown_pressure=float(props.get("shutdown_pressure", 0.0)),
             )
 
     def set_sensor(self, sensor_name: str, value: float):
@@ -62,14 +58,8 @@ class PLCController:
         # Return snapshot
         snapshot = {
             "sensor_pressure": pressure,
-            "valves": {
-                name: valve.state
-                for name, valve in self.valves.items()
-            },
-            "pumps": {
-                name: pump.state
-                for name, pump in self.pumps.items()
-            },
+            "valves": {name: valve.state for name, valve in self.valves.items()},
+            "pumps": {name: pump.state for name, pump in self.pumps.items()},
         }
 
         return snapshot
