@@ -1,0 +1,17 @@
+sensors:
+  PT101:
+    type: pressure
+    unit: bar
+    min_value: 0
+    max_value: 10
+
+valves:
+  V1:
+    type: normally_closed
+    pressure_required: 1.5
+
+pumps:
+  P1:
+    requires_valve_open: V1
+    min_pressure: 1.5
+    shutdown_pressure: 0.5
